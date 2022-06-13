@@ -23,7 +23,7 @@ def load_model():
     finbert = BertForSequenceClassification.from_pretrained('yiyanghkust/finbert-tone',num_labels=3)
     tokenizer = BertTokenizer.from_pretrained('yiyanghkust/finbert-tone')
 
-# Home
+# API home
 @app.get("/")
 def home():
     return "Congratulations! Your API is working as expected. Now head over to http://localhost:80/docs"
