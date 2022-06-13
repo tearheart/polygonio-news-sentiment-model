@@ -34,7 +34,7 @@ jobs:
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
     - run: |-
-        gcloud --quiet auth configure-docker $GCP_ZONE-docker.pkg.dev
+        gcloud auth configure-docker $GCP_ZONE-docker.pkg.dev
 
     # Build the Docker image
     - name: Build
