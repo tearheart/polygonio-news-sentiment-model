@@ -13,6 +13,7 @@ env:
   ARTIFACT_REPO: polygonio-news-sentiment-repo
   GCP_ZONE: us-central1
   IMAGE_NAME: polygonio-news-sentiment-data
+  PROJECT_ID: mlops-3
 
 jobs:
   setup-build-publish-deploy:
