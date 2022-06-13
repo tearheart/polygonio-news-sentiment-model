@@ -13,6 +13,7 @@ env:
   ARTIFACT_REPO: polygonio-news-sentiment-repo
   GCP_ZONE: us-central1
   IMAGE_NAME: polygonio-news-sentiment-data
+  PROJECT_ID: mlops-3
 
 jobs:
   setup-build-publish-deploy:
@@ -28,7 +29,7 @@ jobs:
     - uses: google-github-actions/setup-gcloud@94337306dda8180d967a56932ceb4ddcf01edae7
       with:
         service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-        project_id: ${{ secrets.PROJECT_ID }}
+        project_id: $PROJECT_ID
 
     # Configure Docker to use the gcloud command-line tool as a credential
     # helper for authentication
@@ -42,7 +43,7 @@ jobs:
           --tag "$GCP_ZONE-docker.pkg.dev$PROJECT_ID/$ARTIFACT_REPO/$IMAGE_NAME:$GITHUB_SHA" \
           .
 
-    # Push image to Google Container Registry
+    # Push image to Google Artifact Registry
     - name: Push
       run: |-
         docker push $GCP_ZONE-docker.pkg.dev$PROJECT_ID/$ARTIFACT_REPO/$IMAGE_NAME:$GITHUB_SHA
