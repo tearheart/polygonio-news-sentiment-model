@@ -1,3 +1,83 @@
+# News Sentiment API (Model Container)
+
+### Note:
+*To productionize the Sentiment API (continuous data update), the following repositories must be installed and Docker containers initialized in order.*
+
+1. [Data: polygoniio-news-sentiment-data](https://github.com/tearheart/polygonio-news-sentiment-data)
+2. [Model: polygoniio-news-sentiment-model](https://github.com/tearheart/polygonio-news-sentiment-model)
+3. [API: polygoniio-news-sentiment-api](https://github.com/tearheart/polygonio-news-sentiment-api)
+
+## Steps to install and operate Docker container locally
+Clone the GitHub repository `polygonio-news-sentiment-model`.
+``` bash
+git clone https://github.com/tearheart/polygonio-news-sentiment-model
+```
+
+Move into new directory `polygonio-news-sentiment-model`.
+``` bash
+cd polygonio-news-sentiment-model
+```
+
+***Optional: If you want to tinker with the code.  Create new virtual environment of your choce.  Here are the instructions for Conda.
+``` bash
+conda env create -f environment.yml --force
+```
+
+Add PolygonIO API key to local environment.  Free PolygonIO account can be created [here](https://polygon.io/).
+``` bash
+export POLYGON_API_KEY=<add PolygonIO key here>
+```
+
+Build Docker container locally.  Please inspect the `Makefile` to understand what is going on behind the scenes.
+``` bash
+make local-build
+```
+
+Run Docker container locally. This step requires the use of a PolygonIO API key in the form of an environment variable.
+``` bash
+make local-run
+```
+
+Access to the API interface, the output of `make local-run` should output a link like `http://0.0.0.0:8080` or `http://localhost:8080`.  Click on the link and explore the API interface.  Click on the `sentiment` link, then click `Try Out` and you will be able to test the FinBERT sentiment model.
+
+## Steps to create Docker image, push image, and create Docker container via GCP Cloud Shell
+Create and authorize new GCP Cloud Shell
+``` bash
+gcloud auth list
+```
+
+Clone the GitHub repository `polygonio-news-sentiment-model`.
+``` bash
+git clone https://github.com/tearheart/polygonio-news-sentiment-model
+```
+
+Move into new directory `polygonio-news-sentiment-model`.
+``` bash
+cd polygonio-news-sentiment-model
+```
+
+Create `docker build` image to be pushed to GCP Artifact Registry.
+``` bash
+make gcp-build
+```
+
+Push Docker image to GCP Artifact Registry.
+``` bash
+make gcp-push
+```
+
+Build and run Docker container in GCP Cloud Run.
+``` bash
+make gcp-run
+```
+
+Go to GCP Cloud Run and find related container.  The name of the container will have the following form: 
+
+```<gcp zone>-docker.pkg.dev/<project name>/<repository name>/<container name>```
+
+---
+---
+
 # PolygonIO News Sentiment - Model
 
 This README is for the sentiment analysis model.
@@ -100,10 +180,10 @@ This README is for the sentiment analysis model.
 
 # Model
 
-###FinBERT: Financial Sentiment Analysis with BERT
+### FinBERT: Financial Sentiment Analysis with BERT
 
 **"FinBERT is a pre-trained NLP model to analyze sentiment of financial text. It is built by further training the BERT language model in the finance domain, using a large financial corpus and thereby fine-tuning it for financial sentiment classification."**
 
-**FinBERT Paper:** [FinBERT: Financial Sentiment Analysis with Pre-trained Language Models.](https://arxiv.org/pdf/1908.10063.pdf)
+**FinBERT Paper:** [FinBERT: A Pretrained Language Model for Financial Communications](https://arxiv.org/pdf/2006.08097)
 
-**FinBERT Repository:** [ProsusAI/finBERT](https://github.com/ProsusAI/finBERT)
+**FinBERT Repository:** [yiyanghkust/finbert-pretrain](https://huggingface.co/yiyanghkust/finbert-pretrain)
